@@ -1,40 +1,50 @@
-# s3-lister
+# Cloud Engineering Transition
 
-A small Python CLI that lists your AWS S3 buckets and prints their names and creation dates as a formatted table.
+A living document tracking my journey into cloud engineering, with a focus on AWS.
 
-## Requirements
+---
 
-- Python 3.8+
-- AWS credentials configured (via `~/.aws/credentials`, environment variables, or IAM role)
+## Skills
 
-## Installation
+### Cloud & Infrastructure
+- **AWS** — EC2, S3, IAM, Lambda, VPC, CloudWatch
+- Infrastructure as Code — Terraform / CloudFormation
+- Containerisation — Docker, ECS
 
-```bash
-pip install -r requirements.txt
-```
+### Programming & Scripting
+- Python (boto3, CLI tooling, automation)
+- Bash / shell scripting
 
-## Usage
+### Networking & Security
+- VPC design, subnets, security groups, NACLs
+- IAM roles, policies, least-privilege access
 
-```bash
-python -m s3_lister.main
-```
+---
 
-Example output:
+## Certifications
 
-```
-+------------------+-------------------------+
-| Bucket Name      | Creation Date           |
-+==================+=========================+
-| my-data-bucket   | 2023-04-10 12:00:00 UTC |
-+------------------+-------------------------+
-| logs-archive     | 2022-11-01 09:15:00 UTC |
-+------------------+-------------------------+
-```
+> In progress — this section will be updated as certifications are earned.
 
-## Running Tests
+| Certification | Provider | Status |
+|---|---|---|
+| AWS Cloud Practitioner | AWS | Planned |
+| AWS Solutions Architect – Associate | AWS | Planned |
 
-```bash
-pytest tests/
-```
+---
 
-Tests use `unittest.mock` — no real AWS calls are made.
+## Projects
+
+### s3-lister
+A Python CLI that lists S3 buckets and prints name + creation date as a formatted table.  
+**Stack:** Python, boto3, tabulate  
+**Source:** [`s3_lister/`](s3_lister/)
+
+### System Info CLI
+A small Python script that prints OS, Python version, and hostname.  
+**Source:** [`hello.py`](hello.py)
+
+---
+
+## About This Repo
+
+This repository is a sandbox for cloud engineering practice — CLI tools, AWS automation scripts, and infrastructure experiments built during my transition into cloud engineering.
