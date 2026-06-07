@@ -1,50 +1,65 @@
-# Cloud Engineering Transition
+# ec2-janitor
 
-A living document tracking my journey into cloud engineering, with a focus on AWS.
-
----
-
-## Skills
-
-### Cloud & Infrastructure
-- **AWS** — EC2, S3, IAM, Lambda, VPC, CloudWatch
-- Infrastructure as Code — Terraform / CloudFormation
-- Containerisation — Docker, ECS
-
-### Programming & Scripting
-- Python (boto3, CLI tooling, automation)
-- Bash / shell scripting
-
-### Networking & Security
-- VPC design, subnets, security groups, NACLs
-- IAM roles, policies, least-privilege access
+A production-style Python CLI that audits EC2 instances for missing required tags.
+Exits with code `1` if any violations are found, `0` if everything is clean.
 
 ---
 
-## Certifications
+## Install
 
-> In progress — this section will be updated as certifications are earned.
+```bash
+pip install -e .
+```
 
-| Certification | Provider | Status |
-|---|---|---|
-| AWS Cloud Practitioner | AWS | Planned |
-| AWS Solutions Architect – Associate | AWS | Planned |
+## Usage
 
----
+```bash
+# Default: checks Owner and Environment tags in us-east-1
+ec2-janitor
 
-## Projects
+# Custom region and tags
+ec2-janitor --region eu-west-1 --required-tags Owner,Environment,CostCentre
 
-### s3-lister
-A Python CLI that lists S3 buckets and prints name + creation date as a formatted table.  
-**Stack:** Python, boto3, tabulate  
-**Source:** [`s3_lister/`](s3_lister/)
+# Also write results to a JSON file
+ec2-janitor --region us-east-1 --json-out results.json
+```
 
-### System Info CLI
-A small Python script that prints OS, Python version, and hostname.  
-**Source:** [`hello.py`](hello.py)
+`--region` defaults to the `AWS_REGION` environment variable, then `us-east-1`.
 
----
+## Example output
 
-## About This Repo
+```
++---------------------+---------+---------------------+--------+
+| Instance ID         | State   | Missing Tags        | Status |
++=====================+=========+=====================+========+
+| i-0abc123def456789a | running | —                   | OK     |
++---------------------+---------+---------------------+--------+
+| i-0deadbeefcafe001  | stopped | Owner, Environment  | FAIL   |
++---------------------+---------+---------------------+--------+
+```
 
-This repository is a sandbox for cloud engineering practice — CLI tools, AWS automation scripts, and infrastructure experiments built during my transition into cloud engineering.
+## Exit codes
+
+| Code | Meaning |
+|------|---------|
+| 0 | All instances are clean |
+| 1 | One or more instances have violations |
+| 2 | AWS credential or API error |
+
+## Development
+
+```bash
+pip install -e ".[dev]"
+pytest
+```
+
+## Project layout
+
+```
+src/ec2_janitor/
+  cli.py       # argparse entry point
+  aws.py       # boto3 client wrapper
+  checks.py    # tag audit logic
+tests/
+  test_ec2_janitor.py
+```

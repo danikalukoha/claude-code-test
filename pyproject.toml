@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ec2-janitor"
+version = "0.1.0"
+description = "CLI to audit EC2 instances for missing required tags and idle state."
+requires-python = ">=3.10"
+dependencies = [
+    "boto3>=1.26",
+    "botocore>=1.29",
+    "tabulate>=0.9",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=7", "tabulate>=0.9"]
+
+[project.scripts]
+ec2-janitor = "ec2_janitor.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
